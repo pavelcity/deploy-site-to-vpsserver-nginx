@@ -201,6 +201,17 @@ sudo chown -R coder:coder /var/www/
 
 
 ## Настройка nginx.	Добавить файл в nginx каталог 
+
+### удалить default 
+это под вопросом, удалить default конфиг в папках sites-available и sites-enabled
+```
+cd /etc/nginx/sites-available
+```
+```
+cd /etc/nginx/sites-enabled
+```
+
+
 обычно по названию папки вашего проекта
 ```
 sudo nano /etc/nginx/sites-available/website
@@ -210,7 +221,7 @@ sudo mcedit /etc/nginx/sites-available/website
 ```
 
 
-### добавляем в файл /etc/nginx/sites-available/website эти данные (ставим свой ip и домен в строку server_name)
+### добавляем в файл /etc/nginx/sites-available/website эти данные 
 ``` linenums="1"
 
 server {
