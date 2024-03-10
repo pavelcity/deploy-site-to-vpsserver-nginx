@@ -7,8 +7,9 @@
 !!! note "steps"
     1. Купить сервер
     2. Настроить ресурсные записи
-    3. Рассмотрим публикацию сайта (статические файлы) на уделенный сервер. 
+    3. Рассмотрим публикацию сайта (статические файлы) на уделенный сервер 
     4. Настроим nginx 
+    5. Подключим ssl
 
 
 
@@ -19,7 +20,7 @@
 после покупки сервера мы связываем доменное имя с нашим сервером, данные по работе с сервером приходят на указанную вами почту или их можно взять в личном кабинете сервиса в котором покупался сервер
 ![ip](assets/img/mainip.png)
 
-* `настроить ресурсные записи в regru` - Позовлит соединить доменное имя с купленным сервером
+* `настроить ресурсные записи в regru` - Позволит соединить доменное имя с купленным сервером
 
 заходим в регру, выбираем доменное имя, изменить ресурсные записи, добавляем ip нашего сервера: 
 
@@ -158,6 +159,15 @@ sudo service nginx status
 ```
 cd /var/www/
 ```
+создать папку
+```
+sudo mkdir website
+```
+перейти в папку
+```
+cd website
+```
+
 склонировать сюда проект
 
 ```
@@ -203,18 +213,15 @@ sudo chown -R coder:coder /var/www/
 ## Настройка nginx.	Добавить файл в nginx каталог 
 
 ### удалить default 
-это под вопросом, удалить default конфиг в папках sites-available и sites-enabled
+удалить default конфиг в папке sites-enabled
 ```
-cd /etc/nginx/sites-available
-```
-```
-cd /etc/nginx/sites-enabled
+sudo rm /etc/nginx/sites-enabled/default
 ```
 
 
 
 
-обычно по названию папки вашего проекта
+созать конфиг, обычно по названию папки вашего проекта `website`
 ```
 sudo nano /etc/nginx/sites-available/website
 ```
@@ -230,9 +237,7 @@ server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
 
-
 	root /var/www/website;
-
 	index index.html index.htm;
 
 	server_name app-exmpl.ru www.app-exmpl.ru;
@@ -240,8 +245,6 @@ server {
 	location / {
 		try_files $uri $uri/ =404;
 	}
-
-
 }
 
 
@@ -251,7 +254,7 @@ server {
 
 ### Создаем симлинк
 ```
-sudo ln -s /etc/nginx/sites-available/urni-example /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/website /etc/nginx/sites-enabled/
 ```
 
 ### Перегрузите nginx
