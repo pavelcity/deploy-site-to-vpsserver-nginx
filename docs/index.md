@@ -169,6 +169,10 @@ git clone gitLink
 git clone git@github.com:pavelcity/furni-example.git
 ```
 
+* `или в папке www сделать папку website` - и после команды git clone link поставить точку (через пробел).
+```
+git clone git@github.com:pavelcity/furni-example.git .
+```
 
 
 ### проблема с клонированием / Permission denied
@@ -186,6 +190,12 @@ ls -ld /var/www/
 sudo chmod o+w /var/www/
 ```
 
+### Убедитесь, что пользователь coder имеет права на запись в директорию /var/www/
+Вы можете изменить права доступа с помощью команды
+```
+sudo chown -R coder:coder /var/www/
+```
+
 
 
 
@@ -193,56 +203,32 @@ sudo chmod o+w /var/www/
 ## Настройка nginx.	Добавить файл в nginx каталог 
 обычно по названию папки вашего проекта
 ```
-sudo nano /etc/nginx/sites-available/urni-example
+sudo nano /etc/nginx/sites-available/website
 ```
 ```
-sudo mcedit /etc/nginx/sites-available/urni-example
+sudo mcedit /etc/nginx/sites-available/website
 ```
 
 
-### добавляем в файл /etc/nginx/sites-available/urni-example эти данные (ставим свой ip и домен в строку server_name)
+### добавляем в файл /etc/nginx/sites-available/website эти данные (ставим свой ip и домен в строку server_name)
 ``` linenums="1"
 
 server {
-    listen 80;
-    listen [::]:80;
-
-    root /var/www/urni-example;
-
-    index index.html index.htm index.nginx-debian.html;
-
-    server_name app-exmpl.ru www.app-exmpl.ru 79.174.83.12;
-
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        try_files $uri $uri/ =404;
-    }
+	listen 80 default_server;
+	listen [::]:80 default_server;
 
 
-}
+	root /var/www/website;
 
-server {
-    listen 443 ssl;
-    server_name app-exmpl.ru www.app-exmpl.ru;
+	index index.html index.htm;
 
-    root /var/www/urni-example;
+	server_name _;
 
-    index index.html index.htm index.nginx-debian.html;
+	location / {
+		try_files $uri $uri/ =404;
+	}
 
-    location / {
-        try_files $uri $uri/ =404;
-    }
-}
 
-server {
-    listen 80 ;
-    listen [::]:80 ;
-    server_name app-exmpl.ru www.app-exmpl.ru 79.174.83.12;
-
-    return 301 https://$host$request_uri;
 }
 
 
@@ -258,6 +244,9 @@ sudo ln -s /etc/nginx/sites-available/urni-example /etc/nginx/sites-enabled/
 ### Перегрузите nginx
 ```
 sudo systemctl restart nginx
+```
+```
+sudo service nginx restart
 ```
 
 ### проверим конфигурацию nginx
