@@ -1,4 +1,4 @@
-site_name: deploy-site
+site_name: деплой статического сайта, vps, nginx, ssl
 
 theme:
   name: material
