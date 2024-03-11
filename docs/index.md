@@ -218,8 +218,8 @@ sudo chown -R coder:coder /var/www/
 sudo rm /etc/nginx/sites-enabled/default
 ```
 
-
-
+ 
+ 
 
 созать конфиг, обычно по названию папки вашего проекта `website`
 ```
