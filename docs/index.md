@@ -176,12 +176,12 @@ git clone gitLink
 
 * `например` - шаблон html для тестов
 ```
-git clone git@github.com:pavelcity/furni-example.git
+git clone https://github.com/pavelcity/furni-example.git
 ```
 
 * `или в папке www сделать папку website` - и после команды git clone link поставить точку (через пробел).
 ```
-git clone git@github.com:pavelcity/furni-example.git .
+git clone https://github.com/pavelcity/furni-example.git .
 ```
 
 
